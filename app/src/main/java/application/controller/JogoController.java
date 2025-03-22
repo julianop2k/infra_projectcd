@@ -21,7 +21,6 @@ import application.repository.PlataformaRepository;
 @Controller
 @RequestMapping("/jogo") // Mapeamento base para todas as requisições deste controller
 public class JogoController {
-
     @Autowired
     private JogoRepository jogoRepo;
     @Autowired

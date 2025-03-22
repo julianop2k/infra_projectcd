@@ -16,17 +16,16 @@ import application.repository.PlataformaRepository;
 @Controller
 @RequestMapping("/plataforma")
 public class PlataformaController {
-
     @Autowired
     private PlataformaRepository plataformaRepo;
 
-    @GetMapping("/list")
+    @RequestMapping("/list")
     public String list(Model ui) {
         ui.addAttribute("plataformas", plataformaRepo.findAll());
         return "plataforma/list"; // Nome da view para listar as plataformas
     }
 
-    @GetMapping("/insert")
+    @RequestMapping("/insert")
     public String insert() {
         return "plataforma/insert"; // Nome da view para o formulário de adição
     }
@@ -41,19 +40,19 @@ public class PlataformaController {
         return "redirect:/plataforma/list"; // Redireciona para a lista após adicionar
     }
 
-    @GetMapping("/update")
+    @RequestMapping("/update")
     public String update(
         @RequestParam("id") long id,
         Model ui) {
 
-        Optional<Plataforma> plataforma = plataformaRepo.findById(id)
+        Optional<Plataforma> plataforma = plataformaRepo.findById(id);
 
         if(plataforma.isPresent()) {
             ui.addAttribute("plataforma", plataforma.get());
             return "plataforma/update";
         }
  
-        return "redirect:/plataforma/update"; // Nome da view para o formulário de edição
+        return "redirect:/plataforma/list"; // Nome da view para o formulário de edição
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -70,6 +69,7 @@ public class PlataformaController {
         }
 
         return "redirect:/plataforma/list";
+    }
 
     @RequestMapping("/delete")
     public String delete(
@@ -86,7 +86,8 @@ public class PlataformaController {
         }
 
         return "redirect:/plataforma/list";
-
+    }
+    
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public String delete(@RequestParam("id") long id) {
         plataformaRepo.deleteById(id);
